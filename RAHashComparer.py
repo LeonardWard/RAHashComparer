@@ -119,7 +119,7 @@ def load_config():
     system_map_items = config.items('SYSTEM_MAP')
     settings['SYSTEM_TO_FOLDER_MAP'] = {
         k.replace('_', ' '): v for k, v in system_map_items
-        if v is not None and not k.startswith(config.comment_prefixes)
+        if v is not None
     }
     if settings['RA_USERNAME'] == 'your_username_here' or settings['RA_API_KEY'] == 'your_api_key_here':
         print(f"❌ '{CONFIG_FILE}' 파일에 RetroAchievements 계정 정보를 입력해주세요.")
@@ -370,7 +370,8 @@ Note:
 def main():
     settings = load_config()
     parser = create_arg_parser()
-    args = parser.parse_args()
+    # 인자 없이 실행 시 도움말을 출력하고 종료합니다.
+    args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
     if not os.path.exists(settings['RAHASHER_PATH']):
         print("❌ 필수 파일 없음: RAHasher.exe")
